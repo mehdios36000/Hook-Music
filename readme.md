@@ -14,5 +14,6 @@ This project helps you find other musics with the same genre, artist, or album, 
 npm install
 npm start
 ```
+# server folder
 
 
