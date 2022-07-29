@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 
 import ReactAudioPlayer from 'react-audio-player';
+import axios from 'axios';
 
-var data = require("./MOCK_DATA_SLIDER.json");
 
 
-const Graph = ({ slides }) => {
+
+
+const Graph = () => {
     const [current, setCurrent] = useState(0);
-    const length = slides.length;
+    const [data,setData] = useState([{
+        "artist": "",
+    }]);
+    
+    const length = data.length;
+    useEffect(() => {
+        
+        axios.post("http://localhost:4000/login", {
+            username: "test",  
+            password:"test"
+        })
+            .then(res => {
+                axios.post("http://localhost:3001/api/data/get-tracks" ,
+                {
+                    artistId:window.location.pathname.split("/")[2]
+                },
+                {  
+                    headers: {
+                       "Authorization": `Bearer ${res.data.accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+
+                },
+                ).then(res => {
+                    setData(res.data);
+                }
+                )       
+            }
+            ) 
+    },[]);
 
 
     const nextSlide = () => {
@@ -22,7 +53,7 @@ const Graph = ({ slides }) => {
 
     };
 
-    if (!Array.isArray(slides) || slides.length <= 0) {
+    if (!Array.isArray(data) || data.length <= 0) {
         return null;
     }
 
@@ -43,10 +74,10 @@ const Graph = ({ slides }) => {
                         {index === current && (
 
                             <div className='elements-caroussel'>
-                                <img src={item.img} className='image' alt="" />
+                                <img src={item.image} className='image' alt="" />
                                 <div className='audio'>
                                 <ReactAudioPlayer
-                                    src={item.audio}
+                                    src={item.url}
                                     controls
                                     controlsList="nodownload noplaybackrate"
                                     
