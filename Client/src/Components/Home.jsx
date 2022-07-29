@@ -48,11 +48,17 @@ const Home = () => {
         setValue(event.target.value);
     };
 
-    const onSearch = (searchTerm) => {
+    const onSearch = (searchTerm,index) => {
     
         
 
-        navigate("/search/" + searchTerm);
+        //navigate and send the country as a parameter to the next page
+
+        navigate(`/search/${searchTerm}`, {
+            state: {
+                country:data
+                }
+                });
      
     };
 
@@ -86,9 +92,9 @@ const Home = () => {
                                 );
                             })
                             .slice(0, 10)
-                            .map((item) => (
+                            .map((item,index) => (
                                 <div
-                                    onClick={() => onSearch(item.artistId)}
+                                    onClick={() => onSearch(item.artistId,index)}
                                     className="dropdown-row"
                                     key={item.artist}
                                 >

@@ -3,16 +3,20 @@ import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 
 import ReactAudioPlayer from 'react-audio-player';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom'
 
 
 
 
 
-const Graph = () => {
+
+const Graph = ({}) => {
     const [current, setCurrent] = useState(0);
     const [data,setData] = useState([{
         "artist": "",
     }]);
+   
+    
     
     const length = data.length;
     useEffect(() => {
