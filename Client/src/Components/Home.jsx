@@ -1,21 +1,26 @@
 import React from 'react'
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 var data = require("./MOCK_DATA.json");
 
 
-const Header = () => {
+
+const Home = () => {
     const [value, setValue] = useState("");
+    const navigate = useNavigate();
     const onChange = (event) => {
         setValue(event.target.value);
     };
 
     const onSearch = (searchTerm) => {
         setValue(searchTerm);
+
+        navigate("/search/" + value);
         console.log("search ", searchTerm);
     };
 
     return (
-        <div className='container'>
+        <div>
             <div className='card'>
                 <div className='header-title'>
                     Hook Music
@@ -61,4 +66,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default Home

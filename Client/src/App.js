@@ -1,10 +1,14 @@
-import Header from './Components/Header';
+import Home from './Components/Home';
+import Graph from './Components/Graph';
+import {Routes, Route} from 'react-router-dom';
 
 function App() {
   return (
-    <div className='body-size'>
-     <Header />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/search/:id" element={<Graph/>}/>
+    </Routes>
+    
     
   );
 }
