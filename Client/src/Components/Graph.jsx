@@ -1,73 +1,71 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
+
+import ReactAudioPlayer from 'react-audio-player';
+
 var data = require("./MOCK_DATA_SLIDER.json");
 
-const Graph = () => {
-   const [play, setPlay] = useState(false);
 
-   setTimeout(() => {
+const Graph = ({ slides }) => {
+    const [current, setCurrent] = useState(0);
+    const length = slides.length;
 
-     const playingContainer = document.getElementsByClassName("play-container")[0];
-     playingContainer.style.display="none"; 
-       
-        
-    }
-    , 4000);
-   const handleShow = (index) => {
-        
 
-        const playingContainer = document.getElementsByClassName("play-container")[index];
-        playingContainer.style.display = "block";
+    const nextSlide = () => {
+        console.log("nextSlide");
+        setCurrent(current === length - 1 ? 0 : current + 1);
+
+    };
+
+    const prevSlide = () => {
+        setCurrent(current === 0 ? length - 1 : current - 1);
+
+    };
+
+    if (!Array.isArray(slides) || slides.length <= 0) {
+        return null;
     }
-    const handleHide = (index) => {
-        const playingContainer = document.getElementsByClassName("play-container")[index];
-       
-      
-            playingContainer.style.display="none";
-       
-        
-    }
+
+
+
     return (
+        <section className='slider'>
+            <FaArrowAltCircleLeft className='left-arrow' onClick={prevSlide} />
+            <FaArrowAltCircleRight className='right-arrow' onClick={nextSlide} />
 
-    <>
-      <div class="slider">
-    
-        {data.map((item, index) => (
-           
-              <a href={"#slide-"+(index+1)}>{(index+1)}</a>
-               
-      
-          
-           
+            {data.map((item, index) => {
+                console.log(item);
+                return (
+                    <div
+                        className={index === current ? 'slide active' : 'slide'}
+                        key={index}
+                    >
+                        {index === current && (
 
-            
-        ))}
-            
+                            <div className='elements-caroussel'>
+                                <img src={item.img} className='image' alt="" />
+                                <div className='audio'>
+                                <ReactAudioPlayer
+                                    src={item.audio}
+                                    controls
+                                    controlsList="nodownload noplaybackrate"
+                                    
+                                    
+
+                                />
+                                </div>
+                                
 
 
-      
+                            </div>
 
+                        )}
+                    </div>
+                );
+            })}
 
-  
-    
+        </section>
+    );
+};
 
-  <div class="slides">
-    {data.map((item, index) => (
-         <div id={"slide-"+(index+1)} onClick={() => setPlay(!play)} onMouseEnter={() => handleShow(index)}
-         onMouseLeave={() => handleHide(index)}>
-         <img src={item.img} alt="item-slider"/>
-         <div className='play-container'>
-         {play? <i class="fa-solid fa-pause play-button"></i>  : <i class="fa-solid fa-play play-button" ></i>} 
-            </div>
-         
-       </div>
-    ))}
-   
-   
-  </div>
-</div>
-
-    </>
-  )
-}
-
-export default Graph
+export default Graph;
