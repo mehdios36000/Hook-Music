@@ -71,31 +71,28 @@ exports.getTracks = (req, res) => {
                 // Save the access token so that it's used in future calls
                 spotifyApi.setAccessToken(data.body['access_token']);
                 if(artistId){
-                    spotifyApi.getArtistTopTracks(artistId,"US").then(
-                       
+                    spotifyApi.getRecommendations({
+                        seed_artists: [artistId],
+                        country: country,
+                        limit: 10
+                    }).then(
                         function(data) {
-                            
+                            console.log(data.body.tracks)
                             const tracks=data.body.tracks;
                             const tracksList=tracks.map(track=>{
-                                if(track.preview_url){
-                                    return {
-                                        "track":track.name,
-                                        "trackId":track.id,
-                                        "url":track.preview_url,
-                                        "image":track.album.images[0].url
-                                    }
-
+                                return {
+                                    "track":track.name,
+                                    "trackId":track.id,
+                                    "url":track.preview_url,
+                                    "image":track.album.images[0].url
                                 }
-                               
-                               
                             }
-                            //remove the null tracks
-                            ).filter(track=>track!=null)
-
-                            
+                            ).filter(track=>track.url!=null)
                             res.status(200).json(tracksList);
                         }
                     );
+                                    
+                   
                 }
         }
 
