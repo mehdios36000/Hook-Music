@@ -53,8 +53,13 @@ const Graph = ({ slides }) => {
                                     
 
                                 />
-                                </div>
                                 
+                                </div>
+                                <div className='like-or-not'>
+                                <i class="fa-solid fa-thumbs-up like" id={index}></i>
+                                <i class="fa-solid fa-thumbs-down like" id={index}></i>
+                                    </div>
+                               
 
 
                             </div>

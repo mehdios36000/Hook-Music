@@ -32,9 +32,22 @@ audio{
 .audio{
   background-color: #f4f4f4;
 }
+.like-or-not{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  
+  
+}
+
+.like{
+  color: #f4f4f4;
+  font-size: 50px;
   
 
 
+}
 
 
 .header-title{

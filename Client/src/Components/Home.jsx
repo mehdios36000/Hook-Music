@@ -1,22 +1,59 @@
 import React from 'react'
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-var data = require("./MOCK_DATA.json");
+import axios from 'axios';
 
 
 
 const Home = () => {
     const [value, setValue] = useState("");
+    const [data,setData] = useState([{
+        "artist": "",
+    }]);
     const navigate = useNavigate();
     const onChange = (event) => {
+        if(event.target.value.length > 0){
+            axios.post("http://localhost:4000/login", {
+            username: "test",
+            password:"test"
+        })
+            .then(res => {
+                axios.post("http://localhost:3001/api/data" ,
+                {
+                    query:event.target.value
+                },
+                {  
+                    headers: {
+                       "Authorization": `Bearer ${res.data.accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+
+                },
+                                
+                ).then(res => {
+                    console.log(res.data);
+                    setData(res.data);
+                }
+                )       
+            }
+            )
+            .catch(err => {
+                console.log(err);
+            }
+            )
+        
+        }
+
+
         setValue(event.target.value);
     };
 
     const onSearch = (searchTerm) => {
-        setValue(searchTerm);
+    
+        
 
-        navigate("/search/" + value);
-        console.log("search ", searchTerm);
+        navigate("/search/" + searchTerm);
+     
     };
 
     return (
@@ -51,7 +88,7 @@ const Home = () => {
                             .slice(0, 10)
                             .map((item) => (
                                 <div
-                                    onClick={() => onSearch(item.full_name)}
+                                    onClick={() => onSearch(item.artistId)}
                                     className="dropdown-row"
                                     key={item.artist}
                                 >
