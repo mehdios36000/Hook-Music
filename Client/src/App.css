@@ -176,8 +176,13 @@ audio{
 
   }
 
-  audio{
-    
+/* breakpoint at 770px for mobile */
+/* @media screen and (max-width: 770px){
+  .slider{
+   position:absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
   }
-  
- 
+} */
