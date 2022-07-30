@@ -1,24 +1,26 @@
 import React, { useState , useEffect } from 'react';
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
-
 import ReactAudioPlayer from 'react-audio-player';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom'
 
 
 
 
 
 
-const Graph = ({}) => {
-    const [current, setCurrent] = useState(0);
+
+const Graph = () => {
+   
     const [data,setData] = useState([{
         "artist": "",
     }]);
-   
+    const [current,setCurrent] = useState(0);
+    const [loading,setLoading] = useState(true);
+  
+    
     
     
     const length = data.length;
+    
     useEffect(() => {
         
         axios.post("http://localhost:4000/login", {
@@ -39,72 +41,110 @@ const Graph = ({}) => {
                 },
                 ).then(res => {
                     setData(res.data);
+                    console.log(res.data);
+                    setLoading(false);
                 }
                 )       
             }
-            ) 
+            )
+            .catch(err => {
+                console.log(err);
+            }
+            )
+             
+
+        
     },[]);
 
+  const handleLike = (item) => {
+    setLoading(true);
+    axios.post("http://localhost:4000/login", {
+        username: "test",  
+        password:"test"
+    })
+        .then(res => {
+            axios.post("http://localhost:3001/api/data/get-tracks" ,
+            {
+                artistId:item.artistId
+            },
+            {  
+                headers: {
+                   "Authorization": `Bearer ${res.data.accessToken}`,
+                    "Content-Type": "application/json"
+                }
 
-    const nextSlide = () => {
-        console.log("nextSlide");
-        setCurrent(current === length - 1 ? 0 : current + 1);
-
-    };
-
-    const prevSlide = () => {
-        setCurrent(current === 0 ? length - 1 : current - 1);
-
-    };
-
-    if (!Array.isArray(data) || data.length <= 0) {
-        return null;
+            },
+            ).then(res => {
+                setData(res.data);
+                setLoading(false);
+                if(current < length-1){
+                    setCurrent(current+1);
+                }
+                else{
+                    setCurrent(0);
+                }
+            }
+            )       
+        }
+        )
+        .catch(err => {
+            console.log(err);
+        }
+        )
+   
+  }
+  const handleDislike = () => {
+    if(current < length-1){
+        setCurrent(current+1);
     }
+    else{
+        setCurrent(0);
+    }
+  }
+
+   
 
 
 
     return (
-        <section className='slider'>
-            <FaArrowAltCircleLeft className='left-arrow' onClick={prevSlide} />
-            <FaArrowAltCircleRight className='right-arrow' onClick={nextSlide} />
-
-            {data.map((item, index) => {
-                console.log(item);
-                return (
-                    <div
-                        className={index === current ? 'slide active' : 'slide'}
-                        key={index}
-                    >
-                        {index === current && (
-
-                            <div className='elements-caroussel'>
-                                <img src={item.image} className='image' alt="" />
+      <div className="SlideShow">
+        <div className="SlideShow-container">
+            <div className="SlideShow-slides">
+                {
+                    loading ? <div class="loader"></div> : data.map((item,index) => {
+                        return (
+                            <div className={index===current? "SlideShow-slide current":"SlideShow-slide"} key={index}>
+                                <img src={item.image} alt=""/>
                                 <div className='audio'>
                                 <ReactAudioPlayer
-                                    src={item.url}
-                                    controls
-                                    controlsList="nodownload noplaybackrate"
-                                    
-                                    
-
-                                />
-                                
-                                </div>
-                                <div className='like-or-not'>
-                                <i class="fa-solid fa-thumbs-up like" id={index}></i>
-                                <i class="fa-solid fa-thumbs-down like" id={index}></i>
+                                        src={item.url}
+                                        controls
+                                        controlsList="nodownload noplaybackrate"
+                                        
+                                        
+    
+                                    />
                                     </div>
-                               
+                                    <div className='like-or-not'>
+                                    <i class="fa-solid fa-thumbs-up like" id={index} onClick={()=> handleLike(item)}></i>
+                                    <i class="fa-solid fa-thumbs-down like" id={index} onClick={()=> handleDislike()}></i>
+                                        </div>
+                                </div>
+                        )
+                    }
+                    )
+
+                }
+                </div>
+                </div>
 
 
-                            </div>
 
-                        )}
-                    </div>
-                );
-            })}
 
-        </section>
+        </div>
+        
+      
+        
     );
 };
 

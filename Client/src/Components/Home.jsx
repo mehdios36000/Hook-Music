@@ -63,7 +63,7 @@ const Home = () => {
     };
 
     return (
-        <div>
+        <section className='home'>
             <div className='card'>
                 <div className='header-title'>
                     Hook Music
@@ -77,9 +77,7 @@ const Home = () => {
                 <div className="search-container">
                     <div className="search-inner">
                         <input type="text" value={value} onChange={onChange} />
-                       
-                    </div>
-                    <div className="dropdown">
+                        <div className="dropdown">
                         {data
                             .filter((item) => {
                                 const searchTerm = value.toLowerCase();
@@ -103,9 +101,12 @@ const Home = () => {
                             ))}
                             
                     </div>
+                       
+                    </div>
+                    
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

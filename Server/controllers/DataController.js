@@ -77,14 +77,16 @@ exports.getTracks = (req, res) => {
                         limit: 10
                     }).then(
                         function(data) {
-                            console.log(data.body.tracks)
+                       
                             const tracks=data.body.tracks;
                             const tracksList=tracks.map(track=>{
                                 return {
                                     "track":track.name,
                                     "trackId":track.id,
                                     "url":track.preview_url,
-                                    "image":track.album.images[0].url
+                                    "image":track.album.images[0].url,
+                                    "artist":track.artists[0].name,
+                                    "artistId":track.artists[0].id,
                                 }
                             }
                             ).filter(track=>track.url!=null)
