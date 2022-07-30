@@ -22,11 +22,11 @@ audio{
 }
 .home{
 
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
 }
 
 
@@ -161,9 +161,30 @@ img {
 @media screen and (max-width: 740px) {
   .SlideShow{
     margin: 171px auto;
+    margin-right: 10px;
+    margin-left: 10px;
   } 
- 
+   .header-title{
+    font-size: 2rem;
+    margin-bottom: 1rem;
+   }
+    .header-subtitle{
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .search-label{
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
   
+    .home{
+      position: relative;
+      margin-top: 419px;
+      margin-right: 10px;
+   
+
+    }
+    
   
   
 }

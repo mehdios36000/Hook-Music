@@ -7,9 +7,7 @@ import axios from 'axios';
 
 const Home = () => {
     const [value, setValue] = useState("");
-    const [data,setData] = useState([{
-        "artist": "",
-    }]);
+    const [data,setData] = useState([]);
     const navigate = useNavigate();
     const onChange = (event) => {
         if(event.target.value.length > 0){
