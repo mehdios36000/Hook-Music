@@ -98,6 +98,25 @@ const onSearch = (searchTerm,navigate) => {
     navigate(`/search/${searchTerm}`);
  
 };
+const handleLike = (item,likes,setLikes,setLoading,setData) => {
+    const artistId = item.artistId;
+    const newData = likes;
+    newData.push(artistId);
+    if (newData.length === 5) {
+        const newData2 = [artistId];
+        setLikes(newData2);
+
+    }
+    else {
+        setLikes(newData);
+
+    }
+
+   
+    setLoading(true);
+    PostRequestGraph(likes, setData, setLoading)
+
+}
 
 
-export { PostRequestGraph,PostRequestHome,handleDislike,onChange,onSearch };
+export { PostRequestGraph,PostRequestHome,handleDislike,onChange,onSearch,handleLike };
