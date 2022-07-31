@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
-import axios from 'axios';
+import {PostRequestGraph} from '../logic/functions';
 
 
 
@@ -22,36 +22,8 @@ const Graph = () => {
     
     useEffect(() => {
         
-        axios.post(`http://${process.env.REACT_APP_DOMAIN}:4000/login`, {
-            username: process.env.REACT_APP_USERNAME,  
-            password:process.env.REACT_APP_PASSWORD
-        })
-            .then(res => {
-                axios.post(`http://${process.env.REACT_APP_DOMAIN}:3001/api/data/get-tracks` ,
-                {
-                    artistId:[window.location.pathname.split("/")[2]]
-                        
-                    
-                },
-                {  
-                    headers: {
-                       "Authorization": `Bearer ${res.data.accessToken}`,
-                        "Content-Type": "application/json"
-                    }
-
-                },
-                ).then(res => {
-                    setData(res.data);
-                    
-                    setLoading(false);
-                }
-                )       
-            }
-            )
-            .catch(err => {
-                console.log(err);
-            }
-            )
+        const artists=[window.location.pathname.split("/")[2]]
+        PostRequestGraph(artists,setData,setLoading)
              
 
         
@@ -82,41 +54,7 @@ const Graph = () => {
     setLoading(true);
    
 
-        axios.post(`http://${process.env.REACT_APP_DOMAIN}:4000/login`, {
-            username: process.env.REACT_APP_USERNAME,  
-            password:process.env.REACT_APP_PASSWORD
-        })
-            .then(res => {
-                axios.post(`http://${process.env.REACT_APP_DOMAIN}:3001/api/data/get-tracks` ,
-                {
-                    artistId:likes
-                },
-                {  
-                    headers: {
-                       "Authorization": `Bearer ${res.data.accessToken}`,
-                        "Content-Type": "application/json"
-                    }
-    
-                },
-                ).then(res => {
-                   
-                    setData(res.data);
-                    setLoading(false);
-                    if(current < length-1){
-                        setCurrent(current+1);
-                    }
-                    else{
-                        setCurrent(0);
-                    }
-                }
-                )       
-            }
-            )
-            .catch(err => {
-                
-                console.log(err);
-            }
-            )
+        PostRequestGraph(likes,setData,setLoading)
         
    
   }
