@@ -59,7 +59,21 @@ const Graph = () => {
 
   const handleLike =  (item) => {
     const artistId=item.artistId;
-    setLikes((prevArtists) => [ ...prevArtists, artistId]);
+    const newData=likes;
+    newData.push(artistId);
+    if(newData.length===5){
+        const newData2=[artistId];
+        setLikes(newData2);
+
+    }
+    else{
+        setLikes(newData);
+
+    }
+    
+    console.log(likes);
+
+
 
     
     
@@ -75,7 +89,7 @@ const Graph = () => {
             .then(res => {
                 axios.post("http://localhost:3001/api/data/get-tracks" ,
                 {
-                    artistId:[artistId]
+                    artistId:likes
                 },
                 {  
                     headers: {
