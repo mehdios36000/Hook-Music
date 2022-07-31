@@ -1,38 +1,13 @@
 import React from 'react'
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { PostRequestHome } from '../logic/functions';
+import { onChange,onSearch } from '../logic/functions';
 
 
 const Home = () => {
     const [value, setValue] = useState("");
     const [data,setData] = useState([]);
     const navigate = useNavigate();
-   
-    const onChange = (event) => {
-        if(event.target.value.length > 0){
-           PostRequestHome(event.target.value,setData);
-        
-        }
-
-
-        setValue(event.target.value);
-    };
-
-    const onSearch = (searchTerm,index) => {
-    
-        
-
-        //navigate and send the country as a parameter to the next page
-
-        navigate(`/search/${searchTerm}`, {
-            state: {
-                country:data
-                }
-                });
-     
-    };
-
     return (
         <section className='home'>
             <div className='card'>
@@ -47,7 +22,7 @@ const Home = () => {
                 </div>
                 <div className="search-container">
                     <div className="search-inner">
-                        <input type="text" value={value} onChange={onChange} />
+                        <input type="text" value={value} onChange={(e)=>onChange(e,setData,setValue)} />
                         <div className="dropdown">
                         {data
                             .filter((item) => {
@@ -63,7 +38,7 @@ const Home = () => {
                             .slice(0, 10)
                             .map((item,index) => (
                                 <div
-                                    onClick={() => onSearch(item.artistId,index)}
+                                    onClick={() => onSearch(item.artistId,navigate)}
                                     className="dropdown-row"
                                     key={item.artist}
                                 >

@@ -71,4 +71,33 @@ const PostRequestHome=(value,setData)=>{
         )
 }
 
-export { PostRequestGraph,PostRequestHome };
+const handleDislike = (setCurrent,current,length) => {
+    const audio=document.getElementsByTagName("audio");
+    for(let i=0;i<audio.length;i++){
+        audio[i].pause();
+    }
+
+    if(current < length-1){
+        setCurrent(current+1);
+    }
+    else{
+        setCurrent(0);
+    }
+  }
+
+const onChange = (event,setData,setValue) => {
+    if(event.target.value.length > 0){
+       PostRequestHome(event.target.value,setData);
+    
+    }
+
+
+    setValue(event.target.value);
+};
+const onSearch = (searchTerm,navigate) => {
+    navigate(`/search/${searchTerm}`);
+ 
+};
+
+
+export { PostRequestGraph,PostRequestHome,handleDislike,onChange,onSearch };
