@@ -1,45 +1,17 @@
 import React from 'react'
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import { PostRequestHome } from '../logic/functions';
 
 
 const Home = () => {
     const [value, setValue] = useState("");
     const [data,setData] = useState([]);
     const navigate = useNavigate();
-    console.log(`http://${process.env.REACT_APP_DOMAIN}:4000/login`);
+   
     const onChange = (event) => {
         if(event.target.value.length > 0){
-            axios.post(`http://${process.env.REACT_APP_DOMAIN}:4000/login`, {
-            username: process.env.REACT_APP_USERNAME,
-            password:process.env.REACT_APP_PASSWORD
-        })
-            .then(res => {
-                axios.post(`http://${process.env.REACT_APP_DOMAIN}:3001/api/data` ,
-                {
-                    query:event.target.value
-                },
-                {  
-                    headers: {
-                       "Authorization": `Bearer ${res.data.accessToken}`,
-                        "Content-Type": "application/json"
-                    }
-
-                },
-                                
-                ).then(res => {
-                    console.log(res.data);
-                    setData(res.data);
-                }
-                )       
-            }
-            )
-            .catch(err => {
-                console.log(err);
-            }
-            )
+           PostRequestHome(event.target.value,setData);
         
         }
 
