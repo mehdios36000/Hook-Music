@@ -11,12 +11,8 @@ const dataroutes = require('./routes/data-routes')
 
 
 app.use(express.json())
-app.use(cors(
-    {
-        origin: 'http://localhost:3000',
-        
-    }
-))
+//allow all origins
+app.use(cors())
 app.use('/api/data', authenticateToken, dataroutes.routes)
 
 

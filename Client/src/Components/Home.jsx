@@ -9,14 +9,15 @@ const Home = () => {
     const [value, setValue] = useState("");
     const [data,setData] = useState([]);
     const navigate = useNavigate();
+    console.log(`http://${process.env.REACT_APP_DOMAIN}:4000/login`);
     const onChange = (event) => {
         if(event.target.value.length > 0){
-            axios.post("http://localhost:4000/login", {
-            username: "test",
-            password:"test"
+            axios.post(`http://${process.env.REACT_APP_DOMAIN}:4000/login`, {
+            username: process.env.REACT_APP_USERNAME,
+            password:process.env.REACT_APP_PASSWORD
         })
             .then(res => {
-                axios.post("http://localhost:3001/api/data" ,
+                axios.post(`http://${process.env.REACT_APP_DOMAIN}:3001/api/data` ,
                 {
                     query:event.target.value
                 },

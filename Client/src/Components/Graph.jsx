@@ -22,12 +22,12 @@ const Graph = () => {
     
     useEffect(() => {
         
-        axios.post("http://localhost:4000/login", {
-            username: "test",  
-            password:"test"
+        axios.post(`http://${process.env.REACT_APP_DOMAIN}:4000/login`, {
+            username: process.env.REACT_APP_USERNAME,  
+            password:process.env.REACT_APP_PASSWORD
         })
             .then(res => {
-                axios.post("http://localhost:3001/api/data/get-tracks" ,
+                axios.post(`http://${process.env.REACT_APP_DOMAIN}:3001/api/data/get-tracks` ,
                 {
                     artistId:[window.location.pathname.split("/")[2]]
                         
@@ -82,12 +82,12 @@ const Graph = () => {
     setLoading(true);
    
 
-        axios.post("http://localhost:4000/login", {
-            username: "test",  
-            password:"test"
+        axios.post(`http://${process.env.REACT_APP_DOMAIN}:4000/login`, {
+            username: process.env.REACT_APP_USERNAME,  
+            password:process.env.REACT_APP_PASSWORD
         })
             .then(res => {
-                axios.post("http://localhost:3001/api/data/get-tracks" ,
+                axios.post(`http://${process.env.REACT_APP_DOMAIN}:3001/api/data/get-tracks` ,
                 {
                     artistId:likes
                 },

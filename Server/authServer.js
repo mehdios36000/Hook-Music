@@ -6,13 +6,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 
 app.use(express.json())
-app.use(cors(
-  {
-    origin: 'http://localhost:3000',
-    credentials: true
-  }
-  
-))
+app.use(cors())
 
 let refreshTokens = []
 let testUser={
