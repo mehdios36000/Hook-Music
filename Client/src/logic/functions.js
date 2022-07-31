@@ -98,7 +98,7 @@ const onSearch = (searchTerm,navigate) => {
     navigate(`/search/${searchTerm}`);
  
 };
-const handleLike = (item,likes,setLikes,setLoading,setData) => {
+const handleLike = (item,likes,setLikes,setLoading,setData,tracks,setTracks) => {
     const artistId = item.artistId;
     const newData = likes;
     newData.push(artistId);
@@ -114,7 +114,13 @@ const handleLike = (item,likes,setLikes,setLoading,setData) => {
 
    
     setLoading(true);
+    const newTracks = tracks;
+    newTracks.push(item.trackUri);
+    setTracks(newTracks);
+    localStorage.setItem("tracks",JSON.stringify(tracks)); 
+    console.log(tracks);
     PostRequestGraph(likes, setData, setLoading)
+    
 
 }
 

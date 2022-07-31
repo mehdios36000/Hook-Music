@@ -85,6 +85,7 @@ exports.getTracks = (req, res) => {
                                 return {
                                     "track":track.name,
                                     "trackId":track.id,
+                                    "trackUri":track.uri,
                                     "url":track.preview_url,
                                     "image":track.album.images[0].url,
                                     "artist":track.artists[0].name,
@@ -106,9 +107,46 @@ exports.getTracks = (req, res) => {
     );
 
 }
-
-exports.Login = (req, res) => {
+exports.saveTracks = (req, res) => {
+    const tracks=req.body.tracks;
+    console.log(tracks);
     
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        redirectUri: process.env.SPOTIFY_REDIRECT_URI
+    });
+    spotifyApi.setAccessToken(req.body.accessToken);
+    spotifyApi.getMe().then(
+        function(data) {
+            const userId=data.body.id;
+            console.log(userId);
+            if(tracks){  
+                spotifyApi.createPlaylist(userId, {
+                    name: 'Awesome Playlist',
+                    public: true
+                }).then(
+                    function(data) {
+                        console.log(data)
+                        const playlistId=data.body.id;
+                        console.log(playlistId);
+                        //add tracks to the playlist
+                        spotifyApi.addTracksToPlaylist(playlistId, tracks).then(
+                            function(data) {
+                                res.status(200).json({
+                                    "message":"tracks added to playlist"
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        
+        }
+    );
+
+    
+
+   
+
 }
-
-

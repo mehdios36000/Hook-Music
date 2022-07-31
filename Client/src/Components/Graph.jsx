@@ -15,6 +15,7 @@ const Graph = () => {
     const [loading, setLoading] = useState(true);
     const [likes, setLikes] = useState([]);
     const length = data.length;
+    const [tracks, setTracks] = useState([]);
 
     useEffect(() => {
 
@@ -26,6 +27,7 @@ const Graph = () => {
 
    
     return (
+        <>
         <div className="SlideShow">
             <div className="SlideShow-container">
                 <div className="SlideShow-slides">
@@ -46,7 +48,7 @@ const Graph = () => {
                                         />
                                     </div>
                                     <div className='like-or-not'>
-                                        <i className="fa-solid fa-thumbs-up like" id={index} onClick={() => handleLike(item,likes,setLikes,setLoading,setData)}></i>
+                                        <i className="fa-solid fa-thumbs-up like" id={index} onClick={() => handleLike(item,likes,setLikes,setLoading,setData,tracks,setTracks)}></i>
                                         <i className="fa-solid fa-thumbs-down like" id={index} onClick={() => handleDislike(setCurrent, current, length)}></i>
                                     </div>
                                 </div>
@@ -56,12 +58,23 @@ const Graph = () => {
 
                     }
                 </div>
+                <div>
+        <a href={`${process.env.REACT_APP_AUTH_ENDPOINT}?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=${process.env.REACT_APP_RESPONSE_TYPE}&scope=playlist-modify-public`} className="button">
+            save to spotify
+
+        </a>
+
+        </div>
+               
             </div>
 
 
 
 
         </div>
+        
+       
+        </>
 
 
 
